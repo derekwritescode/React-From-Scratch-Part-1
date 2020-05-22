@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>React From Scratch</title>
+    </head>
+    <body>
+        <h1>Welcome to my new React App!</h1>
+        <div id='root'></div>
+
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+        <script>
+            class Guestbook extends React.Component
+            {
+                constructor(props)
+                {
+                    super(props);
+                    this.state = {currentName: '', guests: []};
+
+                    this.addGuest = this.addGuest.bind(this);
+                    this.updateName = this.updateName.bind(this);
+                }
+
+                addGuest() {
+                    this.setState(state => ({
+                        guests: [...this.state.guests, this.state.currentName],
+                        currentName: ''
+                    }));
+                }
+
+                updateName(e) {
+                    const name = e.target.value;
+                    this.setState(state => ({
+                        currentName: name
+                    }));
+                }
+
+                render()
+                {
+                    return React.createElement('div', null,
+                        React.createElement('h3', null, 'Guestbook'),
+                        React.createElement('label', {style: {marginRight: '10px'}}, 'Name'),
+                        React.createElement('input', {style: {marginRight: "10px"}, value: this.state.currentName, onChange: this.updateName}),
+                        React.createElement('button', {onClick: this.addGuest}, 'Sign Guest Book'),
+                        React.createElement('h4', null, 'Guests'),
+                        React.createElement('ul', null, this.state.guests.map(g => React.createElement('li', null, g)))
+                    )
+                }
+            }
+
+            ReactDOM.render(
+                React.createElement(Guestbook),
+                document.getElementById('root')
+            )
+        </script>
+    </body>
+</html>
